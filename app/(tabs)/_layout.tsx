@@ -2,7 +2,6 @@ import { Link, Tabs } from 'expo-router';
 
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { TabBarIcon } from '../../components/TabBarIcon';
-import { Button, View } from 'react-native';
 
 export default function TabLayout() {
   return (
@@ -17,7 +16,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
-              <MaterialIcons name="logout" size={24} color="black" />
+              <MaterialIcons className="mr-3" name="logout" size={24} color="black" />
             </Link>
           ),
         }}
@@ -26,7 +25,7 @@ export default function TabLayout() {
         name="two"
         options={{
           title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />
     </Tabs>
