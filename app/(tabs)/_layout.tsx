@@ -1,7 +1,8 @@
 import { Link, Tabs } from 'expo-router';
 
-import { HeaderButton } from '../../components/HeaderButton';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { TabBarIcon } from '../../components/TabBarIcon';
+import { Button, View } from 'react-native';
 
 export default function TabLayout() {
   return (
@@ -12,11 +13,11 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Home',
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
-              <HeaderButton />
+              <MaterialIcons name="logout" size={24} color="black" />
             </Link>
           ),
         }}

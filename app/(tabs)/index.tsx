@@ -1,23 +1,30 @@
 import { Stack } from 'expo-router';
 
-import { StyleSheet, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 
-import { ScreenContent } from '~/components/ScreenContent';
+import products from '../../assets/products.json';
+import ProductLists from '~/components/productLists';
 
 export default function Home() {
   return (
     <>
-      <Stack.Screen options={{ title: 'Tab One' }} />
-      <View style={styles.container}>
-        <ScreenContent path="app/(tabs)/index.tsx" title="Tab One" />
-      </View>
+      <Stack.Screen options={{ title: 'Home', headerTitleAlign: 'center' }} />
+      <FlatList
+        data={products}
+        numColumns={2}
+        contentContainerClassName="gap-2"
+        columnWrapperClassName="gap-2"
+        renderItem={({ item }) => (
+          <ProductLists
+            id={item.id}
+            name={item.name}
+            description={item.description}
+            image={item.image}
+            price={item.price}
+          />
+        )}
+        keyExtractor={(item) => item.id.toString()}
+      />
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-  },
-});
