@@ -1,18 +1,31 @@
 import { Stack } from 'expo-router';
 
-import { FlatList, View } from 'react-native';
+import { FlatList } from 'react-native';
+import { useMemo } from 'react';
 
 import products from '../../assets/products.json';
 import ProductLists from '~/components/productLists';
+import { useBreakpointValue } from '@gluestack-ui/utils/hooks';
 
 export default function Home() {
-  return (
-    <>
-      <Stack.Screen options={{ title: 'Home', headerTitleAlign: 'center' }} />
+  // const { width } = useWindowDimensions();
+  // const numberOfColumns = width > 700 ? 3 : 2;
+
+  const flexDir = useBreakpointValue({
+    default: 2,
+    md: 3,
+    xl: 4,
+    sm: 2,
+  }) as number;
+
+  const memoizedFlatList = useMemo(
+    () => (
       <FlatList
+        key={flexDir.toString()}
         data={products}
-        numColumns={2}
-        contentContainerClassName="gap-2"
+        numColumns={flexDir}
+        contentContainerClassName="gap-2 max-w-[960px] mx-auto w-full"
+        //not more than max-w which has been provided
         columnWrapperClassName="gap-2"
         renderItem={({ item }) => (
           <ProductLists
@@ -25,6 +38,14 @@ export default function Home() {
         )}
         keyExtractor={(item) => item.id.toString()}
       />
+    ),
+    [flexDir]
+  );
+
+  return (
+    <>
+      <Stack.Screen options={{ title: 'Home', headerTitleAlign: 'center' }} />
+      {memoizedFlatList}
     </>
   );
 }

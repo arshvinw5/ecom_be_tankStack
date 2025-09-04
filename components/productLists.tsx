@@ -1,12 +1,9 @@
-import { Box } from '@/components/ui/box';
-import { Button, ButtonText } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Heading } from '@/components/ui/heading';
 import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
-import { VStack } from '@/components/ui/vstack';
 import { Link } from 'expo-router';
-import { Pressable, View } from 'react-native';
+import { Pressable } from 'react-native';
 
 type Props = {
   id: number;
@@ -20,7 +17,7 @@ export default function ProductLists({ id, name, description, image, price }: Pr
   return (
     <Link href={{ pathname: '/product/[id]/details', params: { id: id.toString() } }} asChild>
       <Pressable className="flex-1">
-        <Card className="max-w-[360px] flex-1 rounded-lg p-5">
+        <Card className="flex-1 rounded-lg p-5">
           <Image
             source={{
               uri: image,
@@ -29,23 +26,10 @@ export default function ProductLists({ id, name, description, image, price }: Pr
             alt={`Image of ${name}`}
             resizeMode="contain"
           />
-          <Text className="mb-2 text-sm font-normal text-typography-700">{price}</Text>
-          <VStack className="mb-6">
-            <Heading size="md" className="mb-4">
-              {name}
-            </Heading>
-            <Text size="sm">{description}</Text>
-          </VStack>
-          <Box className="flex-col sm:flex-row">
-            <Button className="mb-3 mr-0 px-4 py-2 sm:mb-0 sm:mr-3 sm:flex-1">
-              <ButtonText size="sm">Add to cart</ButtonText>
-            </Button>
-            <Button variant="outline" className="border-outline-300 px-4 py-2 sm:flex-1">
-              <ButtonText size="sm" className="text-typography-600">
-                Wishlist
-              </ButtonText>
-            </Button>
-          </Box>
+          <Text className="mb-2 text-sm font-normal text-typography-700">{name}</Text>
+          <Heading size="md" className="mb-4">
+            LKR {price}
+          </Heading>
         </Card>
       </Pressable>
     </Link>

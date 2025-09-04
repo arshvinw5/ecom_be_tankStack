@@ -14,6 +14,7 @@ export default function RootLayout() {
     <GluestackUIProvider mode="light">
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="product/[id]/details" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
     </GluestackUIProvider>
