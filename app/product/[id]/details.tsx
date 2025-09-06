@@ -8,16 +8,53 @@ import { Heading } from '@/components/ui/heading';
 import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
+import { useGetProductsById } from '~/api/use_get_product_byId';
+import { ActivityIndicator } from 'react-native';
 
 export default function Details() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
-  const productDetails = product.find((p) => p.id === Number(id));
+  const { data, isLoading, error }: any = useGetProductsById(Number(id));
+
+  const productDetails = data;
 
   //we are compare numbers to numbers
 
-  if (!productDetails) {
-    return <Text>Product not found</Text>;
+  // if (!productDetails) {
+  //   return <Text>Product not found</Text>;
+  // }
+
+  if (isLoading) {
+    return (
+      <>
+        <Stack.Screen options={{ title: productDetails.name, headerTitleAlign: 'center' }} />
+        <ActivityIndicator
+          size="large"
+          color="black"
+          className="flex-1 items-center justify-center"
+        />
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <Stack.Screen options={{ title: productDetails.name, headerTitleAlign: 'center' }} />
+        <Text className="flex-1 items-center justify-center text-red-500">
+          Error: {error.message}
+        </Text>
+      </>
+    );
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <>
+        <Stack.Screen options={{ title: productDetails.name, headerTitleAlign: 'center' }} />
+        <Text className="flex-1 items-center justify-center">No products found</Text>
+      </>
+    );
   }
 
   return (
