@@ -1,5 +1,5 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
-import product from '../../../assets/products.json';
+// import product from '../../../assets/products.json';
 
 import { Box } from '@/components/ui/box';
 import { Button, ButtonText } from '@/components/ui/button';
@@ -9,30 +9,46 @@ import { Image } from '@/components/ui/image';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
 import { useGetProductsById } from '~/api/use_get_product_byId';
-import { ActivityIndicator } from 'react-native';
+// import { ActivityIndicator } from 'react-native';
+import { Skeleton, SkeletonText } from '@/components/ui/skeleton';
+import { HStack } from '~/components/ui/hstack';
 
 export default function Details() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
   const { data, isLoading, error }: any = useGetProductsById(Number(id));
 
-  const productDetails = data;
+  console.log('Details component state:', data);
 
   //we are compare numbers to numbers
 
-  // if (!productDetails) {
+  // if (!data) {
   //   return <Text>Product not found</Text>;
   // }
 
-  if (isLoading) {
+  if (!data || data.length === 0 || isLoading) {
     return (
       <>
-        <Stack.Screen options={{ title: productDetails.name, headerTitleAlign: 'center' }} />
+        {/* <Stack.Screen options={{ title: data.name, headerTitleAlign: 'center' }} />
         <ActivityIndicator
           size="large"
           color="black"
           className="flex-1 items-center justify-center"
-        />
+        /> */}
+        <Box className="flex-1 items-center p-3 ">
+          <Card className="mx-auto w-full gap-4 rounded-lg p-5">
+            <Box className="gap-2">
+              <Skeleton variant="sharp" className="mb-6 h-[240px] w-full rounded-md" />
+              <SkeletonText _lines={1} className="h-2 w-20" />
+              <SkeletonText _lines={1} className="h-2 w-40" />
+              <SkeletonText _lines={3} className="h-2 " />
+            </Box>
+            <Box className="w-full flex-col gap-2">
+              <SkeletonText _lines={1} gap={1} className="h-6" />
+              <SkeletonText _lines={1} gap={1} className="h-6" />
+            </Box>
+          </Card>
+        </Box>
       </>
     );
   }
@@ -40,7 +56,7 @@ export default function Details() {
   if (error) {
     return (
       <>
-        <Stack.Screen options={{ title: productDetails.name, headerTitleAlign: 'center' }} />
+        <Stack.Screen options={{ title: data.name, headerTitleAlign: 'center' }} />
         <Text className="flex-1 items-center justify-center text-red-500">
           Error: {error.message}
         </Text>
@@ -48,36 +64,34 @@ export default function Details() {
     );
   }
 
-  if (!data || data.length === 0) {
-    return (
-      <>
-        <Stack.Screen options={{ title: productDetails.name, headerTitleAlign: 'center' }} />
-        <Text className="flex-1 items-center justify-center">No products found</Text>
-      </>
-    );
-  }
+  // if (!data || data.length === 0) {
+  //   return (
+  //     <>
+  //       <Stack.Screen options={{ title: data.name, headerTitleAlign: 'center' }} />
+  //       <Text className="flex-1 items-center justify-center">No products found</Text>
+  //     </>
+  //   );
+  // }
 
   return (
     <>
-      <Stack.Screen options={{ title: productDetails.name, headerTitleAlign: 'center' }} />
+      <Stack.Screen options={{ title: data.name, headerTitleAlign: 'center' }} />
       <Box className="flex-1 items-center p-3">
         <Card className="mx-auto w-full max-w-[960px] flex-1 rounded-lg p-5">
           <Image
             source={{
-              uri: productDetails.image,
+              uri: data.image,
             }}
             className="mb-6 aspect-[4/3] h-[240px] w-full rounded-md"
-            alt={`Image of ${productDetails.name}`}
+            alt={`Image of ${data.name}`}
             resizeMode="contain"
           />
-          <Text className="mb-2 text-sm font-normal text-typography-700">
-            {productDetails.price}
-          </Text>
+          <Text className="mb-2 text-sm font-normal text-typography-700">{data.price}</Text>
           <VStack className="mb-6">
             <Heading size="md" className="mb-4">
-              {productDetails.name}
+              {data.name}
             </Heading>
-            <Text size="sm">{productDetails.description}</Text>
+            <Text size="sm">{data.description}</Text>
           </VStack>
           <Box className="flex-col sm:flex-row">
             <Button className="mb-3 mr-0 px-4 py-2 sm:mb-0 sm:mr-3 sm:flex-1">

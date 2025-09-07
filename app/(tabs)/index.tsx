@@ -6,6 +6,7 @@ import { useMemo } from 'react';
 import ProductLists from '~/components/productLists';
 import { useBreakpointValue } from '@gluestack-ui/utils/hooks';
 import { useGetProducts } from '~/api/use_get_products';
+import SkeletonUI from '~/components/skeleton';
 
 export default function Home() {
   const { data, isLoading, error }: any = useGetProducts();
@@ -46,16 +47,29 @@ export default function Home() {
     ),
     [flexDir, data]
   );
+  const loadingFlatList = useMemo(() => {
+    const skeletonData = Array.from({ length: 6 }).map((_, i) => ({
+      id: `skeleton-${i}`,
+    }));
+
+    return (
+      <FlatList
+        key={flexDir.toString()}
+        data={skeletonData}
+        numColumns={flexDir}
+        contentContainerClassName="gap-2 max-w-[960px] mx-auto w-full"
+        columnWrapperClassName="gap-2"
+        renderItem={() => <SkeletonUI />}
+        keyExtractor={(item) => item.id.toString()}
+      />
+    );
+  }, [flexDir]);
 
   if (isLoading) {
     return (
       <>
         <Stack.Screen options={{ title: 'Home', headerTitleAlign: 'center' }} />
-        <ActivityIndicator
-          size="large"
-          color="black"
-          className="flex-1 items-center justify-center"
-        />
+        {loadingFlatList}
       </>
     );
   }
