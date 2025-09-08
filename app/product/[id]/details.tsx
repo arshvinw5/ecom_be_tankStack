@@ -11,7 +11,7 @@ import { VStack } from '@/components/ui/vstack';
 import { useGetProductsById } from '~/api/use_get_product_byId';
 // import { ActivityIndicator } from 'react-native';
 import { Skeleton, SkeletonText } from '@/components/ui/skeleton';
-import { HStack } from '~/components/ui/hstack';
+import useCart from '~/store/cart_store';
 
 export default function Details() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -19,6 +19,15 @@ export default function Details() {
   const { data, isLoading, error }: any = useGetProductsById(Number(id));
 
   console.log('Details component state:', data);
+
+  const addProduct = useCart((state: any) => state.addProduct);
+  // const cartItems = useCart((state) => state.items);
+
+  // console.log('Current cart items:', JSON.stringify(cartItems, null, 2));
+
+  const addToCart = () => {
+    addProduct(data);
+  };
 
   //we are compare numbers to numbers
 
@@ -94,7 +103,7 @@ export default function Details() {
             <Text size="sm">{data.description}</Text>
           </VStack>
           <Box className="flex-col sm:flex-row">
-            <Button className="mb-3 mr-0 px-4 py-2 sm:mb-0 sm:mr-3 sm:flex-1">
+            <Button onPress={addToCart} className="mb-3 mr-0 px-4 py-2 sm:mb-0 sm:mr-3 sm:flex-1">
               <ButtonText size="sm">Add to cart</ButtonText>
             </Button>
             <Button variant="outline" className="border-outline-300 px-4 py-2 sm:flex-1">

@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
 
-import { ActivityIndicator, FlatList, Text } from 'react-native';
+import { FlatList, Text } from 'react-native';
 import { useMemo } from 'react';
 
 import ProductLists from '~/components/productLists';
