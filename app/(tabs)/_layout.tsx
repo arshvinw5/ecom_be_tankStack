@@ -4,7 +4,6 @@ import { TabBarIcon } from '../../components/TabBarIcon';
 import { Pressable } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Badge, BadgeText } from '~/components/ui/badge';
-import { Text } from '~/components/ui/text';
 import useCart from '~/store/cart_store';
 
 export default function TabLayout() {
@@ -23,19 +22,22 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
             <Link href="/product/[id]/cart" asChild>
-              <Pressable>
-                {item && (
+              {item && (
+                <Pressable>
                   <Badge
                     className="absolute -left-3 -top-3.5 z-10 -mb-3.5 -mr-3.5 h-[22px] w-[22px] self-end rounded-full bg-red-600"
                     variant="solid">
                     <BadgeText className="text-white">{item}</BadgeText>
                   </Badge>
-                )}
 
-                <Text className="mr-3">
-                  <AntDesign name="shoppingcart" size={24} color="black" />
-                </Text>
-              </Pressable>
+                  <AntDesign
+                    name="shoppingcart"
+                    size={24}
+                    color="black"
+                    style={{ marginRight: 12 }}
+                  />
+                </Pressable>
+              )}
             </Link>
           ),
         }}

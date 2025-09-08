@@ -2,7 +2,7 @@ import { FlatList } from 'react-native';
 import useCart from '~/store/cart_store';
 import { Card } from '~/components/ui/card';
 import { HStack } from '~/components/ui/hstack';
-import { Stack } from 'expo-router';
+import { Redirect, Stack } from 'expo-router';
 import { Image } from '@/components/ui/image';
 import { Heading } from '~/components/ui/heading';
 import { Box } from '~/components/ui/box';
@@ -17,6 +17,11 @@ export default function Cart() {
   const checkout = async () => {
     resetCart();
   };
+
+  if (item.length === 0) {
+    return <Redirect href="/" />;
+  }
+
   return (
     <>
       <Stack.Screen options={{ title: 'Cart', headerTitleAlign: 'center' }} />
